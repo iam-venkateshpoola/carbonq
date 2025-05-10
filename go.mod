@@ -1,3 +1,3 @@
-module github.com/yourusername/gcptool
+module github.com/venkyGeek/carboq
 
 go 1.21
