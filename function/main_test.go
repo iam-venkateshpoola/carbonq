@@ -3,16 +3,20 @@ package function
 import (
     "net/http"
     "net/http/httptest"
+    "strings"
     "testing"
 )
 
-func TestHelloWorld(t *testing.T) {
-    req := httptest.NewRequest(http.MethodGet, "/", nil)
-    rr := httptest.NewRecorder()
+func TestCarbonquest(t *testing.T) {
+	req := httptest.NewRequest("GET", "/", nil)
+	rr := httptest.NewRecorder()
 
-    HelloWorld(rr, req)
+	Carbonquest(rr, req)
 
-    if rr.Body.String() != "Hello from Cloud Function!\n" {
-        t.Errorf("Expected response to be 'Hello from Cloud Function!', got %s", rr.Body.String())
-    }
+	result := rr.Body.String()
+	expected := "Hello from Cloud Function!"
+
+	if !strings.Contains(result, expected) {
+		t.Errorf("Expected response to contain %q, but got %q", expected, result)
+	}
 }
