@@ -1,3 +1,3 @@
-module github.com/venkyGeek/carboq/function
+module deploy-carbonquest
 
 go 1.21
