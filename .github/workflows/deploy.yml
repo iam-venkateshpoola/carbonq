@@ -36,7 +36,6 @@ jobs:
 
     - name: Build gcptool
       run: go build -o gcptool .
-      working-directory: ./cmd/gcptool
 
     - name: Deploy Function using gcptool
       if: success()
