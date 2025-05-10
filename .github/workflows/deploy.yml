@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: go build -v ./...
     - name: Run Go tests
-      working-directory: function
+      # working-directory: function
       run: go test -v ./cmd/gcptool
 
     - name: Authenticate to Google Cloud
