@@ -35,7 +35,7 @@ jobs:
         install_components: 'gcloud'
 
     - name: Build gcptool
-      run: go build -o gcptool .
+      run: go build -v -o gcptool . 
       working-directory: ./cmd/gcptool
 
 
