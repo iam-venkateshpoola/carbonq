@@ -20,8 +20,8 @@ jobs:
     - name: Build
       run: go build -v ./...
     - name: Run Go tests
-      run: |
-        go test ./...
+      working-directory: function
+      run: go test ./...
 
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
@@ -35,13 +35,14 @@ jobs:
         install_components: 'gcloud'
 
     - name: Build gcptool
-      run: go build -v -o gcptool . 
-      working-directory: ./cmd/gcptool
-
+      run: go build -v -o gcptool ./cmd/gcptool
+      
+    - name: Describe deployed function
+      run: ./gcptool describe carbonq
 
     - name: Deploy Function using gcptool
       if: success()
-      run: ./gcptool deploy carbonq -e dev -v v1.0.0
+      run: ./gcptool deploy carbonq -e dev -v v1.0.0 -c
           --trigger-http \
           --allow-unauthenticated \
           --region us-central1
