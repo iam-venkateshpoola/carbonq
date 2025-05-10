@@ -36,10 +36,13 @@ jobs:
 
     - name: Build gcptool
       run: go build -v -o gcptool ./cmd/gcptool
+      
+    - name: Describe deployed function
+      run: ./gcptool describe carbonq
 
     - name: Deploy Function using gcptool
       if: success()
-      run: ./gcptool deploy carbonq -e dev -v v1.0.0
+      run: ./gcptool deploy carbonq -e dev -v v1.0.0 -c
           --trigger-http \
           --allow-unauthenticated \
           --region us-central1
