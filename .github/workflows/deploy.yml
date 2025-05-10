@@ -20,8 +20,7 @@ jobs:
     - name: Build
       run: go build -v ./...
     - name: Run Go tests
-      run: |
-        go test ./function
+      run: go test ./function/...
 
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
