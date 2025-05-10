@@ -33,11 +33,12 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         install_components: 'gcloud'
 
-    - name: Deploy function
-      run: |
-        cd function
-        gcloud functions deploy carbonquest \
-          --runtime go121 \
+    - name: Build gcptool
+      run: go build -o gcptool .
+
+    - name: Deploy Function using gcptool
+      if: success()
+      run: ./gcptool deploy carbon_quest -e dev -v v1.0.0
           --trigger-http \
           --allow-unauthenticated \
           --region us-central1
