@@ -2,6 +2,7 @@ package function
 
 import (
 	"fmt"
+	"net/http"
 )
 
 // Carbonquest is the Cloud Function entrypoint
