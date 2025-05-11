@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"os/exec"
 	"testing"
 
@@ -26,7 +25,7 @@ func TestRunCLI_Describe(t *testing.T) {
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		called = true
 		assert.Equal(t, "gcloud", name)
-		return fakeExecCommandWithOutput("Mocked output")
+		return fakeExecCommandWithOutput("mock")
 	}
 	defer func() { execCommand = exec.Command }()
 
@@ -34,7 +33,7 @@ func TestRunCLI_Describe(t *testing.T) {
 	assert.True(t, called, "describe command was not triggered")
 }
 
-// Helper mocks
+// --- Mocks ---
 func fakeExecCommand() *exec.Cmd {
 	return exec.Command("echo", "mock")
 }
