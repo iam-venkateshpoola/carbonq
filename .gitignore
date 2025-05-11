@@ -1,0 +1,19 @@
+# Ignore Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Ignore vendor directory (if not using vendoring)
+vendor/
+
+# Ignore Go workspace files
+go.work
+go.work.sum
+
+# Ignore IDE/editor specific files
+.idea/
+.vscode/
