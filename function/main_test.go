@@ -1,9 +1,9 @@
 package function
 
 import (
-    "net/http/httptest"
-    "strings"
-    "testing"
+	"net/http/httptest"
+	"strings"
+	"testing"
 )
 
 func TestCarbonquest(t *testing.T) {
