@@ -13,7 +13,7 @@ func TestCarbonquest(t *testing.T) {
 	Carbonquest(rr, req)
 
 	result := rr.Body.String()
-	expected := "Hello from CarbonQuest Cloud Function!"
+	expected := "Hello from CarbonQ Cloud Function!"
 
 	if !strings.Contains(result, expected) {
 		t.Errorf("Expected response to contain %q, but got %q", expected, result)
