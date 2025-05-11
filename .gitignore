@@ -17,3 +17,4 @@ go.work.sum
 # Ignore IDE/editor specific files
 .idea/
 .vscode/
+.DS_Store
