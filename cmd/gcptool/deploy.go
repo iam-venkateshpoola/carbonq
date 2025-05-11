@@ -6,8 +6,6 @@ import (
 	"os/exec"
 )
 
-var execCommand = exec.Command
-
 func deploy(functionName, environment, revision string, clean bool) {
 	if functionName == "" {
 		fmt.Println("Function name is required")
