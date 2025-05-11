@@ -6,7 +6,6 @@ import (
     "os/exec"
 )
 
-var execCommand = exec.Command // <-- ensure this is declared at top level
 
 func deploy(functionName, environment, revision string, clean bool) {
     if functionName == "" {
