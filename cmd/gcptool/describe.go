@@ -2,9 +2,7 @@ package main
 
 import (
     "fmt"
-    "os/exec"
 )
-
 
 func describe(functionName string) {
     if functionName == "" {
