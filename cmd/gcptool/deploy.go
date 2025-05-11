@@ -6,6 +6,8 @@ import (
     "os/exec"
 )
 
+var execCommand = exec.Command // <-- ensure this is declared at top level
+
 func deploy(functionName, environment, revision string, clean bool) {
     if functionName == "" {
         fmt.Println("Function name is required")
@@ -13,21 +15,20 @@ func deploy(functionName, environment, revision string, clean bool) {
     }
 
     if clean {
-        cmd := exec.Command("go", "clean")
+        cmd := execCommand("go", "clean") // <-- use mockable execCommand
         cmd.Dir = "../../function"
         cmd.Stdout = os.Stdout
         cmd.Stderr = os.Stderr
         cmd.Run()
     }
 
-    cmd := exec.Command("gcloud", "functions", "deploy", functionName,
-    "--runtime", "go121",
-    "--trigger-http",
-    "--allow-unauthenticated",
-    "--region", "us-central1",
-    "--entry-point", "Carbonquest",
-)
-
+    cmd := execCommand("gcloud", "functions", "deploy", functionName,
+        "--runtime", "go121",
+        "--trigger-http",
+        "--allow-unauthenticated",
+        "--region", "us-central1",
+        "--entry-point", "Carbonquest",
+    )
     cmd.Dir = "./function"
     cmd.Stdout = os.Stdout
     cmd.Stderr = os.Stderr
