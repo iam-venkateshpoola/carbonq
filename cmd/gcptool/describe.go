@@ -5,13 +5,16 @@ import (
     "os/exec"
 )
 
+// Make execCommand mockable for tests
+var execCommand = exec.Command
+
 func describe(functionName string) {
     if functionName == "" {
         fmt.Println("Function name is required")
         return
     }
 
-    cmd := exec.Command("gcloud", "functions", "describe", functionName, "--region", "us-central1")
+    cmd := execCommand("gcloud", "functions", "describe", functionName, "--region", "us-central1")
     output, err := cmd.CombinedOutput()
     if err != nil {
         fmt.Println("Failed to describe function:", err)

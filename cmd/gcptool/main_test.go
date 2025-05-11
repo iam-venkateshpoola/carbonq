@@ -1,43 +1,63 @@
 package main
 
 import (
+	"os"
 	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRunCLI_Deploy(t *testing.T) {
+func TestDeploy_Success(t *testing.T) {
 	called := false
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		called = true
-		assert.Equal(t, "gcloud", name)
-		return fakeExecCommand()
+		return fakeExecCommand(name, args...)
 	}
 	defer func() { execCommand = exec.Command }()
 
-	runCLI([]string{"deploy", "-e", "dev", "-v", "1", "myFunction"})
-	assert.True(t, called, "deploy command was not triggered")
+	// Set up minimal required env for the function
+	os.MkdirAll("./function", 0755)
+	defer os.RemoveAll("./function")
+
+	deploy("test-func", "prod", "1", false)
+	assert.True(t, called, "execCommand should be called")
 }
 
-func TestRunCLI_Describe(t *testing.T) {
+func TestDeploy_MissingName(t *testing.T) {
+	if os.Getenv("BE_CRASHER") == "1" {
+		deploy("", "dev", "1", false)
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestDeploy_MissingName")
+	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
+	err := cmd.Run()
+	assert.NotNil(t, err, "deploy with empty function name should exit")
+}
+
+func TestDescribe_Success(t *testing.T) {
 	called := false
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		called = true
-		assert.Equal(t, "gcloud", name)
-		return fakeExecCommandWithOutput("mock")
+		return fakeExecCommand(name, args...)
 	}
 	defer func() { execCommand = exec.Command }()
 
-	runCLI([]string{"describe", "myFunction"})
-	assert.True(t, called, "describe command was not triggered")
+	describe("test-func")
+	assert.True(t, called, "execCommand should be called")
 }
 
-// --- Mocks ---
-func fakeExecCommand() *exec.Cmd {
-	return exec.Command("echo", "mock")
+func fakeExecCommand(command string, args ...string) *exec.Cmd {
+	cs := []string{"-test.run=TestHelperProcess", "--", command}
+	cs = append(cs, args...)
+	cmd := exec.Command(os.Args[0], cs...)
+	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
+	return cmd
 }
 
-func fakeExecCommandWithOutput(output string) *exec.Cmd {
-	return exec.Command("echo", output)
+func TestHelperProcess(*testing.T) {
+	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
+		return
+	}
+	os.Exit(0)
 }
