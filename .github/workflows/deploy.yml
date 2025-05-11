@@ -1,4 +1,4 @@
-name: Deploy to GCP Cloud function
+name: Deploy to CloudQuest GCP Cloud function
 
 on:
   push:
