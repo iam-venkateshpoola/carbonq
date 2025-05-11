@@ -1,4 +1,4 @@
-name: Deploy to GCP
+name: Deploy to GCP Cloud function
 
 on:
   push:
@@ -10,36 +10,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout the code from the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Set up Go environment
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: '1.21'
+
+    # Install Go dependencies
     - name: Install dependencies
       run: go mod tidy  # Ensure dependencies are installed
-    - name: Build
+
+    # Build the project
+    - name: Build project
       run: go build -v ./...
-    - name: function build
+
+    # Build the function code specifically
+    - name: Build function
       working-directory: function
       run: go build -v ./...
+
+    # Run tests for the function
     - name: Run Go tests for function
       working-directory: function
       run: go test -v ./...
+
+    # Authenticate to Google Cloud
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+    # Set up Google Cloud SDK
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         install_components: 'gcloud'
 
-    - name: Build gcptool
+    # Build the gcptool binary for deployment
+    - name: Build gcptool binary
       run: go build -v -o gcptool ./cmd/gcptool
+
+    # Verify that the gcptool binary was built successfully
     - name: Confirm binary build
       run: |
         echo "Listing files in workspace:"
@@ -50,11 +66,16 @@ jobs:
           echo "gcptool binary not found!"
           exit 1
         fi
-    - name: Run Go tests
+
+    # Run tests for gcptool
+    - name: Run Go tests for gcptool
       run: go test -v ./cmd/gcptool
+
+    # Describe the deployed Cloud Function
     - name: Describe deployed function
       run: ./gcptool describe carbonq
 
+    # Deploy the Cloud Function using gcptool
     - name: Deploy Function using gcptool
-      if: success()
+      if: success()  # Only deploy if all previous steps were successful
       run: ./gcptool deploy carbonq --source=function -e dev -v v1.0.0 -c
