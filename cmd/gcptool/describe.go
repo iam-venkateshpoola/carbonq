@@ -5,8 +5,6 @@ import (
     "os/exec"
 )
 
-// Make execCommand mockable for tests
-var execCommand = exec.Command
 
 func describe(functionName string) {
     if functionName == "" {
