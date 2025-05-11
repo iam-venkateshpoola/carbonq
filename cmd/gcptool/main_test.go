@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"testing"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
+
 
 var commandRunner = exec.Command // Used for mocking exec.Command in tests
 
