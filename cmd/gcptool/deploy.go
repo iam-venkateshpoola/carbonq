@@ -3,9 +3,7 @@ package main
 import (
     "fmt"
     "os"
-    "os/exec"
 )
-
 
 func deploy(functionName, environment, revision string, clean bool) {
     if functionName == "" {
@@ -14,7 +12,7 @@ func deploy(functionName, environment, revision string, clean bool) {
     }
 
     if clean {
-        cmd := execCommand("go", "clean") // <-- use mockable execCommand
+        cmd := execCommand("go", "clean")
         cmd.Dir = "../../function"
         cmd.Stdout = os.Stdout
         cmd.Stderr = os.Stderr
@@ -28,6 +26,7 @@ func deploy(functionName, environment, revision string, clean bool) {
         "--region", "us-central1",
         "--entry-point", "Carbonquest",
     )
+
     cmd.Dir = "./function"
     cmd.Stdout = os.Stdout
     cmd.Stderr = os.Stderr
