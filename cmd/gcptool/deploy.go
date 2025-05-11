@@ -6,7 +6,7 @@ import (
     "os/exec"
 )
 
-// func deploy(functionName, environment, revision string, clean bool) {
+func deploy(functionName, environment, revision string, clean bool) {
     if functionName == "" {
         fmt.Println("Function name is required")
         os.Exit(1)
