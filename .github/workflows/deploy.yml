@@ -21,10 +21,12 @@ jobs:
       run: go mod tidy  # Ensure dependencies are installed
     - name: Build
       run: go build -v ./...
-    - name: Run Go tests
-      # working-directory: function
-      run: go test -v ./cmd/gcptool
-
+    - name: function build
+      working-directory: function
+      run: go build -v ./...
+    - name: Run Go tests for function
+      working-directory: function
+      run: go test -v ./...
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
@@ -38,7 +40,10 @@ jobs:
 
     - name: Build gcptool
       run: go build -v -o gcptool ./cmd/gcptool
-      
+    - name: Run Go tests
+      # working-directory: function
+      run: go test -v ./cmd/gcptool
+
     - name: Describe deployed function
       run: ./gcptool describe carbonq
 
