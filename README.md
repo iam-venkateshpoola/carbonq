@@ -1,4 +1,4 @@
-#  GCP Function Deployment Automation – SRE Assignment
+#  GCP Function Deployment Automation
 
 This project automates Google Cloud Function deployment using a custom Go CLI tool (`gcptool`) and GitHub Actions.
 
