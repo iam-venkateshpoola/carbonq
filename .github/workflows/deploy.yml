@@ -44,7 +44,4 @@ jobs:
 
     - name: Deploy Function using gcptool
       if: success()
-      run: ./gcptool deploy carbonq -e dev -v v1.0.0 -c
-          --trigger-http \
-          --allow-unauthenticated \
-          --region us-central1
+      run: ./gcptool deploy carbonq --source=function -e dev -v v1.0.0 -c
