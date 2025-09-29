@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Carbonquest is the Cloud Function entrypoint
-func Carbonquest(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1><strong>Hello from CarbonQuest Cloud Function!</strong></h1>")
+// Function is the Cloud Function entrypoint
+func Function(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1><strong>Hello from Cloud Function!</strong></h1>")
 }

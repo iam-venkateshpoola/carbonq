@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-func TestCarbonquest(t *testing.T) {
+func TestFunction(t *testing.T) {
 	req := httptest.NewRequest("GET", "/", nil)
 	rr := httptest.NewRecorder()
 
-	Carbonquest(rr, req)
+	Function(rr, req)
 
 	result := rr.Body.String()
 
@@ -19,7 +19,7 @@ func TestCarbonquest(t *testing.T) {
 	re := regexp.MustCompile("<[^>]*>")
 	strippedResult := re.ReplaceAllString(result, "")
 
-	expected := "Hello from CarbonQuest Cloud Function!"
+	expected := "Hello from Cloud Function!"
 
 	if !strings.Contains(strippedResult, expected) {
 		t.Errorf("Expected response to contain %q, but got %q", expected, strippedResult)

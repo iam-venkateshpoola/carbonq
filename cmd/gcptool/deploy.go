@@ -24,7 +24,7 @@ func deploy(functionName, environment, revision string, clean bool) {
 		"--trigger-http",
 		"--allow-unauthenticated",
 		"--region", "us-central1",
-		"--entry-point", "Carbonquest",
+		"--entry-point", "Function",
 	)
 
 	cmd.Dir = "./function"
